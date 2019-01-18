@@ -1,19 +1,15 @@
 const initialState = {
   headlines: "hi",
-  country: "de",
+  country: "us",
   category: "general",
   categoryNews: {},
-  loading: false
+  loading: false,
+  pagesLoaded: 1
 };
 
 export default function headlinesReducer(state = initialState, action) {
   let newState = {};
   switch (action.type) {
-    case "GET_HEADLINE_NEWS":
-      newState = { ...state };
-      newState.headlines = action.headlines;
-      newState.loading = false;
-      return newState;
     case "CHANGE_COUNTRY":
       newState = { ...state };
       newState.country = action.country;

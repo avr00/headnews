@@ -7,21 +7,6 @@ export const loading = () => {
   };
 };
 
-export const getHeadLinesAsync = headlines => {
-  return { type: "GET_HEADLINE_NEWS", headlines };
-};
-
-export const getHeadLines = (country = "us") => {
-  return dispatch => {
-    dispatch(loading());
-    axios
-      .get(
-        `https://newsapi.org/v2/top-headlines?country=${country}&apiKey=${api}`
-      )
-      .then(headlines => dispatch(getHeadLinesAsync(headlines)));
-  };
-};
-
 export const changeCountry = country => {
   return { type: "CHANGE_COUNTRY", country };
 };
@@ -34,12 +19,16 @@ export const getCategoryNewsAsync = categoryNews => {
   return { type: "GET_CATEGORY_NEWS", categoryNews };
 };
 
-export const getCategoryNews = (country, category = "general") => {
+export const getCategoryNews = (
+  country = "us",
+  category = "general",
+  pagesLoaded = 1
+) => {
   return dispatch => {
     dispatch(loading());
     axios
       .get(
-        `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&apiKey=${api}`
+        `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&page=${pagesLoaded}&apiKey=${api}`
       )
       .then(categoryNews => dispatch(getCategoryNewsAsync(categoryNews)));
   };

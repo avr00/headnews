@@ -6,9 +6,14 @@ const NewsCard = props => {
   const { author, description, published, title, url, urlToImage } = props;
   return (
     <div className="card-container">
-      <div className="card-image">
-        <img src={urlToImage || newsDefault} alt="news url" />
-      </div>
+      <div
+        className="card-image"
+        style={{
+          backgroundImage: `url(${urlToImage || newsDefault})`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover"
+        }}
+      />
       <div className="card-content">
         <div className="card-title">
           <a href={url} target="_blank">
