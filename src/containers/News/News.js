@@ -24,6 +24,7 @@ class News extends Component {
     window.removeEventListener("scroll", this.handleScroll, false);
   }
 
+  //Handle Infinite scroll
   handleScroll = () => {
     if (
       window.innerHeight + document.documentElement.scrollTop ===
@@ -34,11 +35,10 @@ class News extends Component {
   };
 
   componentDidUpdate(prevProps) {
+    const { country, category } = this.props.match.params;
+
     if (this.props.location !== prevProps.location) {
-      this.onRouteChanged(
-        this.props.match.params.country,
-        this.props.match.params.category
-      );
+      this.onRouteChanged(country, category);
     }
   }
 
@@ -50,47 +50,37 @@ class News extends Component {
   }
 
   getNews = () => {
+    const { country, category } = this.props.match.params;
+    const { pageSize, page } = this.props;
     if (this.props.hasMore === false) return;
     this.props.onFindMorePages();
-    console.log("DID U FIND MORE PAGES?", this.props.hasMore);
-    this.props.onGetCategoryNews(
-      this.props.match.params.country,
-      this.props.match.params.category,
-      this.props.pageSize,
-      this.props.page
-    );
+    this.props.onGetCategoryNews(country, category, pageSize, page);
   };
 
+  //load new category
   getNewsNewCategory = () => {
+    const { country, category } = this.props.match.params;
     this.props.onFindMorePages();
-    this.props.onGetCategoryNews(
-      this.props.match.params.country,
-      this.props.match.params.category,
-      this.props.pageSize,
-      1
-    );
+    this.props.onGetCategoryNews(country, category, this.props.pageSize, 1);
   };
 
   loadNews = () => {
-    if (this.props.categoryNews.data.articles === undefined) {
-      return "Hello";
-    } else {
-      return this.props.categoryNews.data.articles.map((article, index) => {
-        return (
-          <NewsCard
-            key={index}
-            author={article.author}
-            description={article.description}
-            published={article.publishedAt}
-            source={article.source.name}
-            title={article.title}
-            url={article.url}
-            urlToImage={article.urlToImage}
-          />
-        );
-      });
-    }
+    return this.props.categoryNews.data.articles.map((article, index) => {
+      return (
+        <NewsCard
+          key={index}
+          author={article.author}
+          description={article.description}
+          published={article.publishedAt}
+          source={article.source.name}
+          title={article.title}
+          url={article.url}
+          urlToImage={article.urlToImage}
+        />
+      );
+    });
   };
+
   render() {
     return (
       <div className="news">

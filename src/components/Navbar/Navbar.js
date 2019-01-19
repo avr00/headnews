@@ -10,35 +10,32 @@ import { connect } from "react-redux";
 
 class Navbar extends Component {
   render() {
+    const { country } = this.props;
     return (
       <nav>
         <div className="navbar-top">
           <h1>Magazine</h1>
         </div>
         <div className="navbar-bottom">
-          <NavLink to={`/${this.props.country}/general/`} className="category">
+          <NavLink to={`/${country}/general/`} className="category">
             Home
           </NavLink>
-          <NavLink to={`/${this.props.country}/business/`} className="category">
+          <NavLink to={`/${country}/business/`} className="category">
             Business
           </NavLink>
-          <NavLink
-            to={`/${this.props.country}/entertainment/`}
-            className="category">
+          <NavLink to={`/${country}/entertainment/`} className="category">
             Entertainment
           </NavLink>
-          <NavLink to={`/${this.props.country}/health/`} className="category">
+          <NavLink to={`/${country}/health/`} className="category">
             Health
           </NavLink>
-          <NavLink to={`/${this.props.country}/science/`} className="category">
+          <NavLink to={`/${country}/science/`} className="category">
             Science
           </NavLink>
-          <NavLink
-            to={`/${this.props.country}/technology/`}
-            className="category">
+          <NavLink to={`/${country}/technology/`} className="category">
             Technology
           </NavLink>
-          <div className="dropdown">
+          <div className="dropdown category">
             <button className="dropbtn">Country ▼</button>
             <div className="dropdown-content">
               <NavLink to="/us">US</NavLink>

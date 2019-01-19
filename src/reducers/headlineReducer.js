@@ -23,9 +23,7 @@ export default function headlinesReducer(state = initialState, action) {
       return newState;
     case "GET_CATEGORY_NEWS":
       newState = { ...state };
-      //add pae
       newState.page = newState.page + 1;
-      //get total pages
       newState.totalPages = Math.ceil(
         action.categoryNews.data.totalResults / newState.pageSize
       );
@@ -57,13 +55,11 @@ export default function headlinesReducer(state = initialState, action) {
       return newState;
     case "FIND_MORE_PAGES":
       newState = { ...state };
-      console.log("HI 777");
       if (
         newState.totalPages !== null &&
         newState.totalPages <= newState.page
       ) {
         newState.hasMore = false;
-        console.log("HI 888");
         return newState;
       }
       return newState;

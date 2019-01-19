@@ -1,17 +1,9 @@
 .news {
   width: 80%;
   margin: 0 auto;
+}
 
-  .loadmore {
-    margin: 5rem 0;
-    width: 10rem;
-    height: 5rem;
-    background-color: red;
-    border: none;
-    color: white;
-
-    &:hover {
-      background-color: green;
-    }
-  }
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  overflow-x: hidden;
 }

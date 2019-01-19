@@ -13,6 +13,7 @@ nav {
     margin: 0 auto;
   }
   .navbar-bottom {
+    display: flex;
     margin: 0 auto;
     width: 80%;
     .category {
@@ -37,12 +38,10 @@ nav {
   color: $secondary-color;
   font-size: 1rem;
   border: none;
+  padding: 0;
 }
 
 .dropdown {
-  position: relative;
-  display: inline-block;
-  align-self: flex-end;
 }
 
 .dropdown-content {
@@ -72,5 +71,12 @@ nav {
   flex-direction: column;
 }
 
-.dropdown:hover .dropbtn {
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  nav {
+    .navbar-bottom {
+      display: flex;
+      flex-direction: column;
+    }
+  }
 }
