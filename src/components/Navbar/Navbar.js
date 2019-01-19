@@ -43,7 +43,7 @@ class Navbar extends Component {
               <NavLink to={`/ca/${this.props.category}`}>Canada</NavLink>
               <NavLink to={`/se/${this.props.category}`}>Sweden</NavLink>
               <NavLink to={`/no/${this.props.category}`}>Norway</NavLink>
-              <NavLink to={`/de`}>Germany</NavLink>
+              <NavLink to={`/de/${this.props.category}`}>Germany</NavLink>
             </div>
           </div>
         </div>
