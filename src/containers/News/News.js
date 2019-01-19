@@ -10,13 +10,23 @@ import { connect } from "react-redux";
 import { GridLoader } from "react-spinners";
 import NewsCard from "../../components/NewsCard/NewsCard";
 import "./News.scss";
+import { animateScroll as scroll } from "react-scroll";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleUp } from "@fortawesome/free-solid-svg-icons";
+import { fab } from "@fortawesome/free-brands-svg-icons";
+
+library.add(faAngleUp);
 
 class News extends Component {
   componentDidMount() {
-    this.getNews();
+    const { country, category } = this.props.match.params;
+    this.onRouteChanged(country, category);
+    //this.getNews();
     window.addEventListener("scroll", e => {
       this.handleScroll(e);
     });
+    console.log(this.props);
   }
 
   componentWillUnmount() {
@@ -24,6 +34,13 @@ class News extends Component {
     window.removeEventListener("scroll", this.handleScroll, false);
   }
 
+  componentDidUpdate(prevProps) {
+    const { country, category } = this.props.match.params;
+
+    if (this.props.location !== prevProps.location) {
+      this.onRouteChanged(country, category);
+    }
+  }
   //Handle Infinite scroll
   handleScroll = () => {
     if (
@@ -33,14 +50,6 @@ class News extends Component {
       this.getNews();
     }
   };
-
-  componentDidUpdate(prevProps) {
-    const { country, category } = this.props.match.params;
-
-    if (this.props.location !== prevProps.location) {
-      this.onRouteChanged(country, category);
-    }
-  }
 
   onRouteChanged(country, category) {
     this.props.onResetNews();
@@ -92,6 +101,21 @@ class News extends Component {
           color={"black"}
           loading={this.props.loading}
         />
+        {this.props.hasMore ? (
+          ""
+        ) : (
+          <>
+            <h2 className="bottom">
+              It seems you're up to date with this section!
+            </h2>
+            <div
+              onClick={() => scroll.scrollToTop()}
+              className="scroll-top animated infinite bounce delay-2s">
+              <FontAwesomeIcon size="3x" color="black" icon={"angle-up"} />
+              <span>To Top!</span>
+            </div>
+          </>
+        )}
       </div>
     );
   }

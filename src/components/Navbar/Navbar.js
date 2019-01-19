@@ -13,37 +13,37 @@ class Navbar extends Component {
     const { country } = this.props;
     return (
       <nav>
-        <div className="navbar-top">
+        <div className="navbar-top wow bounceIn">
           <h1>Magazine</h1>
         </div>
         <div className="navbar-bottom">
-          <NavLink to={`/${country}/general/`} className="category">
+          <NavLink to={`/${country}/general`} className="category">
             Home
           </NavLink>
-          <NavLink to={`/${country}/business/`} className="category">
+          <NavLink to={`/${country}/business`} className="category">
             Business
           </NavLink>
-          <NavLink to={`/${country}/entertainment/`} className="category">
+          <NavLink to={`/${country}/entertainment`} className="category">
             Entertainment
           </NavLink>
-          <NavLink to={`/${country}/health/`} className="category">
+          <NavLink to={`/${country}/health`} className="category">
             Health
           </NavLink>
-          <NavLink to={`/${country}/science/`} className="category">
+          <NavLink to={`/${country}/science`} className="category">
             Science
           </NavLink>
-          <NavLink to={`/${country}/technology/`} className="category">
+          <NavLink to={`/${country}/technology`} className="category">
             Technology
           </NavLink>
           <div className="dropdown category">
             <button className="dropbtn">Country ▼</button>
             <div className="dropdown-content">
-              <NavLink to="/us">US</NavLink>
-              <NavLink to="/gb">UK</NavLink>
-              <NavLink to="/ca">Canada</NavLink>
-              <NavLink to="/se">Sweden</NavLink>
-              <NavLink to="/no">Norway</NavLink>
-              <NavLink to="/de">Germany</NavLink>
+              <NavLink to={`/us/${this.props.category}`}>US</NavLink>
+              <NavLink to={`/gb/${this.props.category}`}>UK</NavLink>
+              <NavLink to={`/ca/${this.props.category}`}>Canada</NavLink>
+              <NavLink to={`/se/${this.props.category}`}>Sweden</NavLink>
+              <NavLink to={`/no/${this.props.category}`}>Norway</NavLink>
+              <NavLink to={`/de`}>Germany</NavLink>
             </div>
           </div>
         </div>

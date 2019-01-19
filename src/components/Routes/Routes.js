@@ -1,4 +1,4 @@
-import { Route, Switch, withRouter } from "react-router-dom";
+import { Route, Switch, withRouter, Redirect } from "react-router-dom";
 import React, { Component } from "react";
 import News from "../../containers/News/News";
 import Error from "../../components/Error/Error";
@@ -8,6 +8,7 @@ class Routes extends Component {
     return (
       <Switch>
         {/* <Redirect exact from="/" to="/us" /> */}
+        <Redirect from="/" to="/us/general" exact />
         <Route
           path="/"
           render={props => <News {...props} isAuthed={true} />}

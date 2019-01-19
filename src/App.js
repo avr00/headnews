@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 //import { css } from "@emotion/core";
+import WOW from "wowjs";
 import { BrowserRouter } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import Routes from "./components/Routes/Routes";
 import "./components/Error/Error";
 import "./App.scss";
+
 
 // const override = css`
 //   display: block;
@@ -13,6 +15,9 @@ import "./App.scss";
 // `;
 
 class App extends Component {
+  componentDidMount() {
+    new WOW.WOW().init();
+  }
   render() {
     return (
       <BrowserRouter>
