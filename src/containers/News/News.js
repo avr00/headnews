@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import {
   changeCountry,
   changeCategory,
-  getCategoryNews
+  getCategoryNews,
+  resetNews,
+  findMorePages
 } from "../../actions/headlineNewsActions";
 import { connect } from "react-redux";
 import { GridLoader } from "react-spinners";
@@ -12,16 +14,26 @@ import "./News.scss";
 class News extends Component {
   componentDidMount() {
     this.getNews();
+    window.addEventListener("scroll", e => {
+      this.handleScroll(e);
+    });
   }
 
+  componentWillUnmount() {
+    // remove event listener
+    window.removeEventListener("scroll", this.handleScroll, false);
+  }
+
+  handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop ===
+      document.documentElement.offsetHeight
+    ) {
+      this.getNews();
+    }
+  };
+
   componentDidUpdate(prevProps) {
-    console.log("ROUTE CHANGED");
-    console.log(
-      "CURRENT",
-      this.props.match.params.country,
-      `PrevProps`,
-      this.props.match.params.category
-    );
     if (this.props.location !== prevProps.location) {
       this.onRouteChanged(
         this.props.match.params.country,
@@ -31,21 +43,36 @@ class News extends Component {
   }
 
   onRouteChanged(country, category) {
+    this.props.onResetNews();
     this.props.onChangeCountry(country);
     this.props.onChangeCategory(category);
-    this.getNews();
+    this.getNewsNewCategory();
   }
 
   getNews = () => {
+    if (this.props.hasMore === false) return;
+    this.props.onFindMorePages();
+    console.log("DID U FIND MORE PAGES?", this.props.hasMore);
     this.props.onGetCategoryNews(
       this.props.match.params.country,
-      this.props.match.params.category
+      this.props.match.params.category,
+      this.props.pageSize,
+      this.props.page
     );
-    console.log("staSte", this.props.categoryNews);
+  };
+
+  getNewsNewCategory = () => {
+    this.props.onFindMorePages();
+    this.props.onGetCategoryNews(
+      this.props.match.params.country,
+      this.props.match.params.category,
+      this.props.pageSize,
+      1
+    );
   };
 
   loadNews = () => {
-    if (this.props.categoryNews.data === undefined) {
+    if (this.props.categoryNews.data.articles === undefined) {
       return "Hello";
     } else {
       return this.props.categoryNews.data.articles.map((article, index) => {
@@ -75,9 +102,6 @@ class News extends Component {
           color={"black"}
           loading={this.props.loading}
         />
-        <button className="loadmore" onClick={() => console.log("loadmore")}>
-          Load More Articles
-        </button>
       </div>
     );
   }
@@ -89,7 +113,10 @@ const mapStateToProps = state => {
     country: state.headlinesReducer.country,
     category: state.headlinesReducer.category,
     loading: state.headlinesReducer.loading,
-    categoryNews: state.headlinesReducer.categoryNews
+    categoryNews: state.headlinesReducer.categoryNews,
+    pageSize: state.headlinesReducer.pageSize,
+    page: state.headlinesReducer.page,
+    hasMore: state.headlinesReducer.hasMore
   };
 };
 
@@ -101,8 +128,14 @@ const mapDispatchToProps = dispatch => {
     onChangeCategory: category => {
       dispatch(changeCategory(category));
     },
-    onGetCategoryNews: (country, category) => {
-      dispatch(getCategoryNews(country, category));
+    onGetCategoryNews: (country, category, pageSize, page) => {
+      dispatch(getCategoryNews(country, category, pageSize, page));
+    },
+    onResetNews: () => {
+      dispatch(resetNews());
+    },
+    onFindMorePages: () => {
+      dispatch(findMorePages());
     }
   };
 };
