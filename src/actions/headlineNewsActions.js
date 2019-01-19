@@ -15,6 +15,10 @@ export const changeCategory = (category = "general") => {
   return { type: "CHANGE_CATEGORY", category };
 };
 
+export const resetNews = () => {
+  return { type: "RESET_NEWS" };
+};
+
 export const getCategoryNewsAsync = categoryNews => {
   return { type: "GET_CATEGORY_NEWS", categoryNews };
 };
@@ -22,14 +26,19 @@ export const getCategoryNewsAsync = categoryNews => {
 export const getCategoryNews = (
   country = "us",
   category = "general",
-  pagesLoaded = 1
+  pageSize = 2,
+  page = 1
 ) => {
   return dispatch => {
     dispatch(loading());
     axios
       .get(
-        `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&page=${pagesLoaded}&apiKey=${api}`
+        `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&pageSize=${pageSize}&page=${page}&apiKey=${api}`
       )
       .then(categoryNews => dispatch(getCategoryNewsAsync(categoryNews)));
   };
+};
+
+export const findMorePages = () => {
+  return { type: "FIND_MORE_PAGES" };
 };
