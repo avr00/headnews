@@ -4,7 +4,8 @@ import {
   changeCategory,
   getCategoryNews,
   resetNews,
-  findMorePages
+  findMorePages,
+  getSearchNews
 } from "../../actions/headlineNewsActions";
 import { connect } from "react-redux";
 import { GridLoader } from "react-spinners";
@@ -22,11 +23,12 @@ class News extends Component {
   componentDidMount() {
     const { country, category } = this.props.match.params;
     this.onRouteChanged(country, category);
-    //this.getNews();
+    this.getNews();
     window.addEventListener("scroll", e => {
       this.handleScroll(e);
     });
-    console.log(this.props);
+    // console.log(this.props.query);
+    // this.props.onGetSearchNews(this.props.query);
   }
 
   componentWillUnmount() {
@@ -52,25 +54,44 @@ class News extends Component {
   };
 
   onRouteChanged(country, category) {
+    console.log(this.props);
     this.props.onResetNews();
-    this.props.onChangeCountry(country);
-    this.props.onChangeCategory(category);
+    if (this.props.match.params.country) {
+      this.props.onChangeCountry(country);
+      this.props.onChangeCategory(category);
+    }
     this.getNewsNewCategory();
   }
 
   getNews = () => {
-    const { country, category } = this.props.match.params;
+    const { country, category, query } = this.props.match.params;
     const { pageSize, page } = this.props;
     if (this.props.hasMore === false) return;
     this.props.onFindMorePages();
-    this.props.onGetCategoryNews(country, category, pageSize, page);
+
+    if (country) {
+      this.props.onGetCategoryNews(country, category, pageSize, page);
+    } else {
+      // console.log("PAGEE", page);
+      this.props.onGetSearchNews(query, "es", "popularity", pageSize, page);
+    }
   };
 
   //load new category
   getNewsNewCategory = () => {
-    const { country, category } = this.props.match.params;
+    const { country, category, query } = this.props.match.params;
     this.props.onFindMorePages();
-    this.props.onGetCategoryNews(country, category, this.props.pageSize, 1);
+    if (country) {
+      this.props.onGetCategoryNews(country, category, this.props.pageSize, 1);
+    } else {
+      this.props.onGetSearchNews(
+        query,
+        "es",
+        "popularity",
+        this.props.pageSize,
+        1
+      );
+    }
   };
 
   loadNews = () => {
@@ -130,7 +151,8 @@ const mapStateToProps = state => {
     categoryNews: state.headlinesReducer.categoryNews,
     pageSize: state.headlinesReducer.pageSize,
     page: state.headlinesReducer.page,
-    hasMore: state.headlinesReducer.hasMore
+    hasMore: state.headlinesReducer.hasMore,
+    query: state.headlinesReducer.query
   };
 };
 
@@ -150,6 +172,9 @@ const mapDispatchToProps = dispatch => {
     },
     onFindMorePages: () => {
       dispatch(findMorePages());
+    },
+    onGetSearchNews: (query, language, sortBy, pageSize, page) => {
+      dispatch(getSearchNews(query, language, sortBy, pageSize, page));
     }
   };
 };

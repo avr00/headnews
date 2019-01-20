@@ -42,3 +42,23 @@ export const getCategoryNews = (
 export const findMorePages = () => {
   return { type: "FIND_MORE_PAGES" };
 };
+
+export const getSearchNews = (
+  query = "venezuela",
+  language = "es",
+  sortBy = "popularity",
+  pageSize = 5,
+  page = 3
+) => {
+  return dispatch => {
+    dispatch(loading());
+    axios
+      .get(
+        `https://newsapi.org/v2/everything?q=${query}&language=${language}&sortBy=${sortBy}&pageSize=${pageSize}&page=${page}&apiKey=67df4670e41048a6bb95a8a772701902`
+      )
+      .then(results => dispatch(getSearchNewsAsync(results)));
+  };
+};
+export const getSearchNewsAsync = results => {
+  return { type: "GET_SEARCH", results };
+};

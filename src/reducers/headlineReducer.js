@@ -7,7 +7,8 @@ const initialState = {
   pageSize: 10,
   page: 1,
   totalPages: null,
-  hasMore: true
+  hasMore: true,
+  query: "bitcoin"
 };
 
 export default function headlinesReducer(state = initialState, action) {
@@ -62,6 +63,23 @@ export default function headlinesReducer(state = initialState, action) {
         newState.hasMore = false;
         return newState;
       }
+      return newState;
+    case "GET_SEARCH":
+      newState = { ...state };
+      newState.page = newState.page + 1;
+      newState.totalPages = Math.ceil(
+        action.results.data.totalResults / newState.pageSize
+      );
+      //get total results
+      newState.categoryNews.data.totalResults =
+        action.results.data.totalResults;
+      //concat new data
+      newState.categoryNews.data.articles = [
+        ...newState.categoryNews.data.articles,
+        ...action.results.data.articles
+      ];
+      newState.loading = false;
+      console.log("RESULTS", action.results);
       return newState;
     default:
       return state;

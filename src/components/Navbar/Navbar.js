@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./Navbar.scss";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import {
   changeCountry,
   changeCategory,
@@ -9,12 +9,37 @@ import {
 import { connect } from "react-redux";
 
 class Navbar extends Component {
+  state = {
+    query: ""
+  };
+  handleChange = e => {
+    this.setState({ query: e.target.value });
+  };
+  handleSubmit = event => {
+    event.preventDefault();
+    this.props.history.push(`/q=${this.state.value}`);
+  };
+
   render() {
     const { country } = this.props;
     return (
       <nav>
         <div className="navbar-top wow bounceIn">
           <h1>Magazine</h1>
+          <form onSubmit={this.handleSubmit}>
+            <label>
+              <input
+                type="text"
+                name="name"
+                value={this.state.query}
+                onChange={this.handleChange}
+              />
+            </label>
+            <Link to={`/search/${this.state.query}`}>
+              <button className="btn btn-primary">Search</button>
+            </Link>
+            <input type="submit" value="Submit" />
+          </form>
         </div>
         <div className="navbar-bottom">
           <NavLink to={`/${country}/general`} className="category">

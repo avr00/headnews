@@ -15,6 +15,11 @@ class Routes extends Component {
           exact
         />
         <Route
+          path="/search/:query"
+          render={props => <News {...props} isAuthed={true} />}
+          exact
+        />
+        <Route
           path="/:country"
           render={props => <News {...props} isAuthed={true} />}
           exact
