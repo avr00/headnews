@@ -34,7 +34,7 @@ class Navbar extends Component {
         <div className="navbar-top wow bounceIn">
           <div className="name-hamburger-container">
             <Link to={`/${this.props.country}`}>
-              <h1>Magazine</h1>
+              <h1>Headnews</h1>
             </Link>
 
             <div className="hamburger">
