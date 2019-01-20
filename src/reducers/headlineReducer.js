@@ -79,7 +79,6 @@ export default function headlinesReducer(state = initialState, action) {
         ...action.results.data.articles
       ];
       newState.loading = false;
-      console.log("RESULTS", action.results);
       return newState;
     default:
       return state;

@@ -2,9 +2,9 @@ import React, { Component } from "react";
 //import { css } from "@emotion/core";
 import WOW from "wowjs";
 import { BrowserRouter } from "react-router-dom";
-import Navbar from "./components/Navbar/Navbar";
-import Routes from "./components/Routes/Routes";
-import "./components/Error/Error";
+import Navbar from "../Navbar/Navbar";
+import Routes from "../Routes/Routes";
+import "../Error/Error";
 import "./App.scss";
 
 

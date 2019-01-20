@@ -53,7 +53,7 @@ class News extends Component {
   };
 
   onRouteChanged(country, category) {
-    console.log(this.props);
+    //console.log(this.props);
     this.props.onResetNews();
     if (this.props.match.params.country) {
       this.props.onChangeCountry(country);
@@ -71,7 +71,6 @@ class News extends Component {
     if (country) {
       this.props.onGetCategoryNews(country, category, pageSize, page);
     } else {
-      // console.log("PAGEE", page);
       this.props.onGetSearchNews(query, "es", "popularity", pageSize, page);
     }
   };
