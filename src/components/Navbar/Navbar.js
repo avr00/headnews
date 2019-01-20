@@ -7,6 +7,7 @@ import {
   getCategoryNews
 } from "../../actions/headlineNewsActions";
 import { connect } from "react-redux";
+import HamburgerMenu from "react-hamburger-menu";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
@@ -15,7 +16,8 @@ library.add(faSearch);
 
 class Navbar extends Component {
   state = {
-    query: ""
+    query: "",
+    open: false
   };
   handleChange = e => {
     this.setState({ query: e.target.value });
@@ -30,7 +32,25 @@ class Navbar extends Component {
     return (
       <nav>
         <div className="navbar-top wow bounceIn">
-          <h1>Magazine</h1>
+          <div className="name-hamburger-container">
+            <Link to={`/${this.props.country}`}>
+              <h1>Magazine</h1>
+            </Link>
+
+            <div className="hamburger">
+              <HamburgerMenu
+                isOpen={this.state.open}
+                menuClicked={() => this.setState({ open: !this.state.open })}
+                width={35}
+                height={35}
+                strokeWidth={3}
+                rotate={0}
+                color="black"
+                borderRadius={0}
+                animationDuration={0.5}
+              />
+            </div>
+          </div>
           <form onSubmit={this.handleSubmit}>
             <label>
               <input
@@ -49,27 +69,42 @@ class Navbar extends Component {
             </Link>
           </form>
         </div>
-        <div className="navbar-bottom">
-          <NavLink to={`/${country}/general`} className="category">
+        <div
+          className={`navbar-bottom ${
+            this.state.open ? "active-hamburger" : ""
+          }`}>
+          <NavLink
+            to={`/${country}/general`}
+            className="category animated fadeInDown">
             Home
           </NavLink>
-          <NavLink to={`/${country}/business`} className="category">
+          <NavLink
+            to={`/${country}/business`}
+            className="category animated fadeInDown">
             Business
           </NavLink>
-          <NavLink to={`/${country}/entertainment`} className="category">
+          <NavLink
+            to={`/${country}/entertainment`}
+            className="category animated fadeInDown">
             Entertainment
           </NavLink>
-          <NavLink to={`/${country}/health`} className="category">
+          <NavLink
+            to={`/${country}/health`}
+            className="category animated fadeInDown">
             Health
           </NavLink>
-          <NavLink to={`/${country}/science`} className="category">
+          <NavLink
+            to={`/${country}/science`}
+            className="category animated fadeInDown">
             Science
           </NavLink>
-          <NavLink to={`/${country}/technology`} className="category">
+          <NavLink
+            to={`/${country}/technology`}
+            className="category animated fadeInDown">
             Technology
           </NavLink>
           <div className="dropdown category">
-            <button className="dropbtn">Country ▼</button>
+            <button className="dropbtn animated fadeInDown">Country ▼</button>
             <div className="dropdown-content">
               <NavLink to={`/us/${this.props.category}`}>US</NavLink>
               <NavLink to={`/gb/${this.props.category}`}>UK</NavLink>
