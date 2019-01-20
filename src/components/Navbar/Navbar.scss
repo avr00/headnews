@@ -9,8 +9,33 @@ nav {
   border-spacing: 1rem 1rem;
   padding-bottom: 0.3rem;
   .navbar-top {
+    display: flex;
     width: 80%;
-    margin: 0 auto;
+    margin: 1.4rem auto;
+
+    form {
+      input[type="text"] {
+        border-radius: 360px;
+        border: none;
+        background-color: #f0f0f0;
+        height: 2rem;
+        margin-left: 2rem;
+        width: 20rem;
+        padding-left: 1rem;
+      }
+      input[type="text"]:focus {
+        outline: none;
+      }
+
+      button {
+        border: none;
+        background-color: inherit;
+      }
+    }
+
+    h1 {
+      margin: 0;
+    }
   }
   .navbar-bottom {
     display: flex;

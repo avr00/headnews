@@ -35,7 +35,8 @@ export const getCategoryNews = (
       .get(
         `https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&pageSize=${pageSize}&page=${page}&apiKey=${api}`
       )
-      .then(categoryNews => dispatch(getCategoryNewsAsync(categoryNews)));
+      .then(categoryNews => dispatch(getCategoryNewsAsync(categoryNews)))
+      .catch(err => console.error(err));
   };
 };
 
@@ -56,7 +57,8 @@ export const getSearchNews = (
       .get(
         `https://newsapi.org/v2/everything?q=${query}&language=${language}&sortBy=${sortBy}&pageSize=${pageSize}&page=${page}&apiKey=67df4670e41048a6bb95a8a772701902`
       )
-      .then(results => dispatch(getSearchNewsAsync(results)));
+      .then(results => dispatch(getSearchNewsAsync(results)))
+      .catch(err => console.error(err));
   };
 };
 export const getSearchNewsAsync = results => {

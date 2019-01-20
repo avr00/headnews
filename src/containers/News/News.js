@@ -15,7 +15,6 @@ import { animateScroll as scroll } from "react-scroll";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleUp } from "@fortawesome/free-solid-svg-icons";
-import { fab } from "@fortawesome/free-brands-svg-icons";
 
 library.add(faAngleUp);
 
@@ -95,7 +94,11 @@ class News extends Component {
   };
 
   loadNews = () => {
-    return this.props.categoryNews.data.articles.map((article, index) => {
+    const { articles } = this.props.categoryNews.data;
+    if (articles.length === 0 && this.props.loading === false) {
+      return <h2>Oops, sorry we couldn't find anything :(</h2>;
+    }
+    return articles.map((article, index) => {
       return (
         <NewsCard
           key={index}

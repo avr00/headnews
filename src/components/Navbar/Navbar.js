@@ -7,6 +7,11 @@ import {
   getCategoryNews
 } from "../../actions/headlineNewsActions";
 import { connect } from "react-redux";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+
+library.add(faSearch);
 
 class Navbar extends Component {
   state = {
@@ -33,12 +38,15 @@ class Navbar extends Component {
                 name="name"
                 value={this.state.query}
                 onChange={this.handleChange}
+                placeholder={"Search on Magazine"}
+                required={true}
               />
             </label>
             <Link to={`/search/${this.state.query}`}>
-              <button className="btn btn-primary">Search</button>
+              <button className="btn btn-primary">
+                <FontAwesomeIcon size="1x" color="#999999" icon={"search"} />
+              </button>
             </Link>
-            <input type="submit" value="Submit" />
           </form>
         </div>
         <div className="navbar-bottom">
