@@ -44,6 +44,9 @@ nav {
         background-color: inherit;
       }
     }
+    .dropdown {
+      margin: auto 0;
+    }
   }
   .navbar-bottom {
     display: flex;
@@ -53,6 +56,11 @@ nav {
       text-decoration: none;
       color: $secondary-color;
       margin-right: 2rem;
+    }
+
+    .btn-modal {
+      background: inherit;
+      border: none;
     }
   }
 }
@@ -113,7 +121,7 @@ nav {
       align-items: center;
 
       .name-hamburger-container {
-        width: 90%;
+        width: 100%;
         display: flex;
         justify-content: center;
         .hamburger {

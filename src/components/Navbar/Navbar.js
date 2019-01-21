@@ -4,20 +4,24 @@ import { NavLink, Link } from "react-router-dom";
 import {
   changeCountry,
   changeCategory,
-  getCategoryNews
+  getCategoryNews,
+  changeLanguage,
+  changeSortBy
 } from "../../actions/headlineNewsActions";
 import { connect } from "react-redux";
 import HamburgerMenu from "react-hamburger-menu";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faSlidersH } from "@fortawesome/free-solid-svg-icons";
+import Modal from "../Modal/Modal";
 
-library.add(faSearch);
+library.add(faSearch, faSlidersH);
 
 class Navbar extends Component {
   state = {
     query: "",
-    open: false
+    open: false,
+    show: false
   };
   handleChange = e => {
     this.setState({ query: e.target.value });
@@ -25,6 +29,16 @@ class Navbar extends Component {
   handleSubmit = event => {
     event.preventDefault();
     this.props.history.push(`/q=${this.state.value}`);
+  };
+
+  showModal = event => {
+    event.preventDefault();
+    this.setState({ show: true });
+  };
+
+  hideModal = event => {
+    event.preventDefault();
+    this.setState({ show: false });
   };
 
   render() {
@@ -36,7 +50,6 @@ class Navbar extends Component {
             <Link to={`/${this.props.country}/general`}>
               <h1>Headnews</h1>
             </Link>
-
             <div className="hamburger">
               <HamburgerMenu
                 isOpen={this.state.open}
@@ -51,6 +64,7 @@ class Navbar extends Component {
               />
             </div>
           </div>
+
           <form onSubmit={this.handleSubmit}>
             <label>
               <input
@@ -114,7 +128,44 @@ class Navbar extends Component {
               <NavLink to={`/de/${this.props.category}`}>Germany</NavLink>
             </div>
           </div>
+          <button className="btn-modal" type="button" onClick={this.showModal}>
+            <FontAwesomeIcon size="2x" color="#999999" icon={"sliders-h"} />
+          </button>
         </div>
+        <Modal show={this.state.show} handleClose={this.hideModal}>
+          <h3>Search Settings</h3>
+          <form onSubmit={e => this.hideModal(e)}>
+            <div
+              onChange={event => this.props.onChangeSortBy(event.target.value)}>
+              <h4>Sort By</h4>
+              <input
+                type="radio"
+                value="publishedAt"
+                name="sortby"
+                defaultChecked
+              />{" "}
+              Newest
+              <input type="radio" value="relevancy" name="sortby" /> Relevancy
+              <input type="radio" value="popularity" name="sortby" /> Popularity
+            </div>
+            <div
+              onChange={event =>
+                this.props.onChangeLanguage(event.target.value)
+              }>
+              <h4>Language</h4>
+              <input
+                type="radio"
+                value="en"
+                name="language"
+                defaultChecked
+              />{" "}
+              English
+              <input type="radio" value="es" name="language" /> Spanish
+              <input type="radio" value="de" name="language" /> German
+            </div>
+            <button className="modal-btn">Save Settings</button>
+          </form>
+        </Modal>
       </nav>
     );
   }
@@ -140,6 +191,12 @@ const mapDispatchToProps = dispatch => {
     },
     onGetCategoryNews: (country, category) => {
       dispatch(getCategoryNews(country, category));
+    },
+    onChangeLanguage: language => {
+      dispatch(changeLanguage(language));
+    },
+    onChangeSortBy: sortBy => {
+      dispatch(changeSortBy(sortBy));
     }
   };
 };

@@ -8,7 +8,9 @@ const initialState = {
   page: 1,
   totalPages: null,
   hasMore: true,
-  query: "bitcoin"
+  query: "bitcoin",
+  language: "en",
+  sortBy: "publishedAt"
 };
 
 export default function headlinesReducer(state = initialState, action) {
@@ -79,6 +81,14 @@ export default function headlinesReducer(state = initialState, action) {
         ...action.results.data.articles
       ];
       newState.loading = false;
+      return newState;
+    case "CHANGE_LANGUAGE":
+      newState = { ...state };
+      newState.language = action.language;
+      return newState;
+    case "CHANGE_SORTBY":
+      newState = { ...state };
+      newState.sortBy = action.sortBy;
       return newState;
     default:
       return state;

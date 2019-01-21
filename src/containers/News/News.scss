@@ -22,4 +22,7 @@
 @media only screen and (max-width: 768px) {
   /* For mobile phones: */
   overflow-x: hidden;
+  .news {
+    width: 100%;
+  }
 }

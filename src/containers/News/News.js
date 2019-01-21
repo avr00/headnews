@@ -64,14 +64,14 @@ class News extends Component {
 
   getNews = () => {
     const { country, category, query } = this.props.match.params;
-    const { pageSize, page } = this.props;
+    const { pageSize, page, language, sortBy } = this.props;
     if (this.props.hasMore === false) return;
     this.props.onFindMorePages();
 
     if (country) {
       this.props.onGetCategoryNews(country, category, pageSize, page);
     } else {
-      this.props.onGetSearchNews(query, "es", "popularity", pageSize, page);
+      this.props.onGetSearchNews(query, language, sortBy, pageSize, page);
     }
   };
 
@@ -84,8 +84,8 @@ class News extends Component {
     } else {
       this.props.onGetSearchNews(
         query,
-        "es",
-        "popularity",
+        this.props.language,
+        this.props.sortBy,
         this.props.pageSize,
         1
       );
@@ -154,7 +154,9 @@ const mapStateToProps = state => {
     pageSize: state.headlinesReducer.pageSize,
     page: state.headlinesReducer.page,
     hasMore: state.headlinesReducer.hasMore,
-    query: state.headlinesReducer.query
+    query: state.headlinesReducer.query,
+    language: state.headlinesReducer.language,
+    sortBy: state.headlinesReducer.sortBy
   };
 };
 

@@ -64,3 +64,12 @@ export const getSearchNews = (
 export const getSearchNewsAsync = results => {
   return { type: "GET_SEARCH", results };
 };
+
+export const changeLanguage = language => {
+  return { type: "CHANGE_LANGUAGE", language };
+};
+
+
+export const changeSortBy = sortBy => {
+  return { type: "CHANGE_SORTBY", sortBy };
+};
