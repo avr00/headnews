@@ -15,6 +15,7 @@ import { animateScroll as scroll } from "react-scroll";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleUp } from "@fortawesome/free-solid-svg-icons";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 library.add(faAngleUp);
 
@@ -45,10 +46,10 @@ class News extends Component {
   //Handle Infinite scroll
   handleScroll = () => {
     if (
-      window.innerHeight + document.documentElement.scrollTop ===
+      window.innerHeight + document.documentElement.scrollTop + 200 >=
       document.documentElement.offsetHeight
     ) {
-      this.getNews();
+      // this.getNews();
     }
   };
 
@@ -114,9 +115,20 @@ class News extends Component {
   };
 
   render() {
+    const { articles } = this.props.categoryNews.data;
     return (
       <div className="news">
-        {this.loadNews()}
+        <InfiniteScroll
+          dataLength={articles.length}
+          next={this.getNews}
+          hasMore={this.props.hasMore}
+          endMessage={
+            <p style={{ textAlign: "center" }}>
+              <b>Yay! You have seen it all</b>
+            </p>
+          }>
+          {this.loadNews()}
+        </InfiniteScroll>
         <GridLoader
           css={""}
           sizeUnit={"px"}
