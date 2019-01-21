@@ -1,5 +1,4 @@
 const initialState = {
-  headlines: "hi",
   country: "us",
   category: "general",
   categoryNews: { data: { totalResults: null, articles: [] } },

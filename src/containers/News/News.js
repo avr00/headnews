@@ -12,28 +12,15 @@ import { GridLoader } from "react-spinners";
 import NewsCard from "../../components/NewsCard/NewsCard";
 import "./News.scss";
 import { animateScroll as scroll } from "react-scroll";
-import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleUp } from "@fortawesome/free-solid-svg-icons";
+import PropTypes from "prop-types";
 import InfiniteScroll from "react-infinite-scroll-component";
-
-library.add(faAngleUp);
 
 class News extends Component {
   componentDidMount() {
     const { country, category } = this.props.match.params;
     this.onRouteChanged(country, category);
     this.getNews();
-    window.addEventListener("scroll", e => {
-      this.handleScroll(e);
-    });
-    // console.log(this.props.query);
-    // this.props.onGetSearchNews(this.props.query);
-  }
-
-  componentWillUnmount() {
-    // remove event listener
-    window.removeEventListener("scroll", this.handleScroll, false);
   }
 
   componentDidUpdate(prevProps) {
@@ -43,15 +30,6 @@ class News extends Component {
       this.onRouteChanged(country, category);
     }
   }
-  //Handle Infinite scroll
-  handleScroll = () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop + 200 >=
-      document.documentElement.offsetHeight
-    ) {
-      // this.getNews();
-    }
-  };
 
   onRouteChanged(country, category) {
     //console.log(this.props);
@@ -156,9 +134,26 @@ class News extends Component {
   }
 }
 
+News.propTypes = {
+  country: PropTypes.string,
+  category: PropTypes.string,
+  loading: PropTypes.bool,
+  categoryNews: PropTypes.object,
+  pageSize: PropTypes.number,
+  page: PropTypes.number,
+  hasMore: PropTypes.bool,
+  query: PropTypes.string,
+  sortBy: PropTypes.string,
+  onChangeCategory: PropTypes.func,
+  onChangeCountry: PropTypes.func,
+  onGetCategoryNews: PropTypes.func,
+  onResetNews: PropTypes.func,
+  onFindMorePages: PropTypes.func,
+  onGetSearchNews: PropTypes.func
+};
+
 const mapStateToProps = state => {
   return {
-    headlines: state.headlinesReducer.headlines,
     country: state.headlinesReducer.country,
     category: state.headlinesReducer.category,
     loading: state.headlinesReducer.loading,

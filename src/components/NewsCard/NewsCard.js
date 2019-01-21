@@ -1,6 +1,7 @@
 import React from "react";
 import "./NewsCard.scss";
 import newsDefault from "../../images/news-default.jpeg";
+import PropTypes from "prop-types";
 
 const NewsCard = props => {
   const { author, description, published, title, url, urlToImage } = props;
@@ -32,6 +33,15 @@ const NewsCard = props => {
       </div>
     </div>
   );
+};
+
+NewsCard.propTypes = {
+  author: PropTypes.string,
+  description: PropTypes.string,
+  published: PropTypes.string,
+  title: PropTypes.string,
+  url: PropTypes.string,
+  urlToImage: PropTypes.string
 };
 
 export default NewsCard;

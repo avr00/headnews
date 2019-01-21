@@ -2,20 +2,14 @@ import React, { Component } from "react";
 import "./Navbar.scss";
 import { NavLink, Link } from "react-router-dom";
 import {
-  changeCountry,
-  changeCategory,
-  getCategoryNews,
   changeLanguage,
   changeSortBy
 } from "../../actions/headlineNewsActions";
 import { connect } from "react-redux";
 import HamburgerMenu from "react-hamburger-menu";
-import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faSlidersH } from "@fortawesome/free-solid-svg-icons";
-import Modal from "../Modal/Modal";
-
-library.add(faSearch, faSlidersH);
+import Modal from "../../components/Modal/Modal";
+import PropTypes from "prop-types";
 
 class Navbar extends Component {
   state = {
@@ -42,7 +36,7 @@ class Navbar extends Component {
   };
 
   render() {
-    const { country } = this.props;
+    const { country, onChangeLanguage, onChangeSortBy } = this.props;
     return (
       <nav>
         <div className="navbar-top wow bounceIn">
@@ -132,66 +126,33 @@ class Navbar extends Component {
             <FontAwesomeIcon size="2x" color="#999999" icon={"sliders-h"} />
           </button>
         </div>
-        <Modal show={this.state.show} handleClose={this.hideModal}>
-          <h3>Search Settings</h3>
-          <form onSubmit={e => this.hideModal(e)}>
-            <div
-              onChange={event => this.props.onChangeSortBy(event.target.value)}>
-              <h4>Sort By</h4>
-              <input
-                type="radio"
-                value="publishedAt"
-                name="sortby"
-                defaultChecked
-              />{" "}
-              Newest
-              <input type="radio" value="relevancy" name="sortby" /> Relevancy
-              <input type="radio" value="popularity" name="sortby" /> Popularity
-            </div>
-            <div
-              onChange={event =>
-                this.props.onChangeLanguage(event.target.value)
-              }>
-              <h4>Language</h4>
-              <input
-                type="radio"
-                value="en"
-                name="language"
-                defaultChecked
-              />{" "}
-              English
-              <input type="radio" value="es" name="language" /> Spanish
-              <input type="radio" value="de" name="language" /> German
-            </div>
-            <button className="modal-btn">Save Settings</button>
-          </form>
-        </Modal>
+        <Modal
+          show={this.state.show}
+          handleClose={this.hideModal}
+          onChangeSortBy={onChangeSortBy}
+          onChangeLanguage={onChangeLanguage}
+        />
       </nav>
     );
   }
 }
 
+Navbar.propTypes = {
+  country: PropTypes.string,
+  category: PropTypes.string,
+  onChangeLanguage: PropTypes.func,
+  onChangeSortBy: PropTypes.func
+};
+
 const mapStateToProps = state => {
   return {
-    headlines: state.headlinesReducer.headlines,
     country: state.headlinesReducer.country,
-    category: state.headlinesReducer.category,
-    loading: state.headlinesReducer.loading,
-    categoryNews: state.headlinesReducer.categoryNews
+    category: state.headlinesReducer.category
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onChangeCountry: country => {
-      dispatch(changeCountry(country));
-    },
-    onChangeCategory: category => {
-      dispatch(changeCategory(category));
-    },
-    onGetCategoryNews: (country, category) => {
-      dispatch(getCategoryNews(country, category));
-    },
     onChangeLanguage: language => {
       dispatch(changeLanguage(language));
     },
